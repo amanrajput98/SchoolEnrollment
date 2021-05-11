@@ -29,7 +29,13 @@ def show_students(request):
                 marks=marks, enrollment_date=enrollment_date)
             new_student.save()
             student_form = StudentForm()
-            context = {'student_form': student_form}
+            student_list = []
+            for student in Student.objects.all():
+                student_list.append({'name': student.student_name, 'email': student.email,
+                'phone': student.phone, 'class': student.class_enrolled,
+                'marks': student.marks})
+
+            context = {'student_form': student_form, 'student_list': student_list}
             return render(request, 'index.html', context=context)
         else:
             print('Invalid form')
